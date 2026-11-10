@@ -1,5 +1,17 @@
 # tmux-code-time
 
+This is my own fork of `tmux-code-time` by `theo64oliver` that includes
+additional features that makes it easier to track session times.
+
+## Core Additions:
+- Timestamp of session creation.
+- Option to pause, reset and edit timer.
+- Convenient way to view session times
+
+
+
+# Original README
+
 Tmux code time is a tmux pluggin that monitor the time spent on each tmux session. This comes particularly handy when billing clients.
 The time recorded persists between reboot and all actions, to reset the count, please use the following script outside a tmux session: `reset_count.sh`
 

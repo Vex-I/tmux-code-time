@@ -13,10 +13,13 @@ source "$CURRENT_DIR/scripts/utilites.sh"
 
 if [[ -n "$TMUX" ]]; then
 
+    ## TODO: Clear logs every so often, to avoid clutter.
     echo "[$(date)] STARTING TIMER for session $(tmux display-message -p '#S')" >> "$LOG_FILE"
 
+    # Session at the start
     visible_session_name=$(tmux display-message -p '#S')
 
+    # Session currently
     session_name=$(tmux display -p '#{session_name}')
     INITIAL_SECONDS=$(grep "^$session_name=" "$storage_file" | cut -d'=' -f2)
     SECONDS="$INITIAL_SECONDS"
@@ -33,9 +36,9 @@ if [[ -n "$TMUX" ]]; then
 
         # Store the session name and the time in the storage file
         if grep -q "^$session_name=" "$storage_file"; then
-          sed -i "s/^$session_name=.*/$session_name=$SECONDS/" "$storage_file"
+         sed -i "s/^$session_name=[^;]*/$session_name=$SECONDS/" "$storage_file"
         else
-          echo "$session_name=$SECONDS" >> "$storage_file"
+          echo "$session_name=$SECONDS;$EPOCHSECONDS" >> "$storage_file"
     fi
     done
 
