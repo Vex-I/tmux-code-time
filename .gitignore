@@ -1,2 +1,4 @@
 *.log
 tmux-timer.txt
+tmux-timer.txt.lock
+

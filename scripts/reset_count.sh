@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Deprecated
+
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 storage_dir="${CURRENT_DIR%/scripts*}/"
 storage_file="$storage_dir"tmux-timer.txt
