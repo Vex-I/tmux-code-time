@@ -11,6 +11,12 @@ touch "$storage_file"
 
 source "$CURRENT_DIR/scripts/utilites.sh"
 
+start=1
+
+toggle_tracking() {
+    ((start = !start))
+}
+
 if [[ -n "$TMUX" ]]; then
 
     ## TODO: Clear logs every so often, to avoid clutter.
@@ -21,7 +27,7 @@ if [[ -n "$TMUX" ]]; then
 
     # Session currently
     session_name=$(tmux display -p '#{session_name}')
-    INITIAL_SECONDS=$(grep "^$session_name=" "$storage_file" | cut -d'=' -f2)
+    INITIAL_SECONDS=$(grep "^$session_name=" "$storage_file" | cut -d'=' -f2 | cut -d';' -f1)
     SECONDS="$INITIAL_SECONDS"
 
     if [[ -z "$SECONDS" ]]; then
@@ -32,9 +38,12 @@ if [[ -n "$TMUX" ]]; then
     while [[ "$visible_session_name" == "$(tmux display-message -p '#S')" ]]; do
         # TODO: Find the best way to update the file every seconds without it being too heavy.
         # We only update the file when we switch session for the moment
+        # 
+        # For now, I'll implement just one exec flow.
         sleep 1
 
-        # Store the session name and the time in the storage file
+        # Store the session name and the time in the storage file every 10
+        # seconds
         if grep -q "^$session_name=" "$storage_file"; then
          sed -i "s/^$session_name=[^;]*/$session_name=$SECONDS/" "$storage_file"
         else
