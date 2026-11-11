@@ -184,7 +184,7 @@ _remove_session() {
 }
 
 _list_sessions() {
-    tail -n +2 "$storage_file"
+    tail -n +1 "$storage_file"
 }
 
 init

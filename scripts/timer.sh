@@ -32,9 +32,7 @@ if [[ -n "$TMUX" && "$("$storage" get-start)" == "1" ]]; then
 
         sleep 1
 
-        printf "%s\n" $SECONDS
-
-        $storage set-session $session_name $SECONDS
+        [[ "$increment" == "60" ]] && increment=0 && $storage set-session $session_name $SECONDS
 
     done
 
