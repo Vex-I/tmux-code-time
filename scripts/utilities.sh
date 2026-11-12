@@ -30,7 +30,7 @@ print_table() {
         done 
     } < "$1"
 
-    printf "\n\n\033[1;36m<q> Close; <p> Pause/resume; <d [SESSION]> Delete session;\033[0m\n\n"
+    printf "\n\n\033[1;36m<q> Close; <p> Pause/resume; <d> [SESSION] Delete session <c> [NAME] Create session;\033[0m\n\n"
 }
 
 launch_timer() {
@@ -42,4 +42,28 @@ launch_timer() {
     clear
     print_table <("$storage" list-sessions) 
     echo "Toggled"
+}
+
+# TODO: Find a good way to handle edge cases for the following functions.
+
+prompt_delete() {
+    CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+    storage="$CURRENT_DIR/scripts/storage.sh"
+    timer="$CURRENT_DIR/scripts/timer.sh"
+    clear
+    $storage delete-session "$1"
+    code=$?
+    print_table <("$storage" list-sessions) 
+    echo "$code"
+}
+
+prompt_create() {
+    CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+    storage="$CURRENT_DIR/scripts/storage.sh"
+    timer="$CURRENT_DIR/scripts/timer.sh"
+    clear
+    $storage set-session "$1"
+    code=$?
+    print_table <("$storage" list-sessions) 
+    echo "$code"
 }

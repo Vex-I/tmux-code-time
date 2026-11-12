@@ -18,7 +18,18 @@ print_table <("$storage" list-sessions)
 # Main loop
 while read -rsn1 key; do
     [[ "$key" == "q" ]] && exit
+
     if [[ "$key" == "p" ]]; then 
         launch_timer
+    fi
+
+    if [[ "$key" == "d" ]]; then 
+        read -rp "DELETE:" opt
+        prompt_delete "$opt"
+    fi
+
+    if [[ "$key" == "c" ]]; then 
+        read -rp "CREATE:" opt
+        prompt_create "$opt"
     fi
 done

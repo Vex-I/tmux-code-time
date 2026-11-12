@@ -2,6 +2,8 @@
 
 # Wrapper around the database to prevent race conditions
 # Honestly, might as well use SQLite, but I want to learn a little.
+# TODO: Implement a backup system. This seems shaky without logs.
+# TODO: Integrate logs
 
 path="$0"
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
@@ -105,7 +107,7 @@ _get_session() {
 
 _set_session() {
     local session="$1"
-    local seconds="$2"
+    local seconds="${2:-0}"
     local timestamp="${3:-$EPOCHSECONDS}"
 
     [[ -n "$session" && "$session" != *[=[:space:]\;]* ]] || return 1
